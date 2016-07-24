@@ -1,32 +1,25 @@
 var webpack = require('webpack');
-
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-var HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
-  template: __dirname + '/app/index.html',
-  filename: 'index.html',
-  inject: 'body'
-});
-
+var path = require('path');
 var CommonsChunkPlugin = require('./node_modules/webpack/lib/optimize/CommonsChunkPlugin');
-
-
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: './app/index.js',
-  output: {
+  entry: {
     index: './app/index',
     vendor: [
       'react',
       'react-dom',
       'jquery'
-    ],
-    path: __dirname + '/dist',
-    filename: 'index_bundle.js'
+    ]
   },
   devServer:{
     inline: true,
     contentBase: './dist',
     port:3000
+  },
+  output: {
+    path: path.join(__dirname, 'dist'),
+    filename: '[name].bundle.js'
   },
   module: {
     loaders: [{
@@ -46,8 +39,12 @@ module.exports = {
       loader: 'style-loader!css-loader!sass-loader'
     }]
   },
-  plugins:[
-    HtmlWebpackPluginConfig,
-    new CommonsChunkPlugin('vendor', 'vendor.bundle.js')
+  plugins: [
+    new CommonsChunkPlugin('vendor', 'vendor.bundle.js'),
+    new HtmlWebpackPlugin({
+      filename: 'index.html',
+      template: './app/index.html',
+      inject:false
+    })
   ]
 };
