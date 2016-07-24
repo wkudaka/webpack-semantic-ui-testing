@@ -2,6 +2,7 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 var ReactRouter = require('react-router');
 var Link = ReactRouter.Link;
+var IndexLink = ReactRouter.IndexLink;
 
 var App = React.createClass({
   render: function() {
@@ -9,9 +10,9 @@ var App = React.createClass({
       <div>
         <h1>TEST</h1>
         <ul className="header">
-          <li><Link to="/">Home</Link></li>
-          <li><Link to="/stuff">Stuff</Link></li>
-          <li><Link to="/contact">Contact</Link></li>
+          <li><IndexLink to="/" activeClassName="active">Home</IndexLink></li>
+          <li><Link to="/stuff" activeClassName="active">Stuff</Link></li>
+          <li><Link to="/contact" activeClassName="active">Contact</Link></li>
         </ul>
         <div className="content">
           {this.props.children}

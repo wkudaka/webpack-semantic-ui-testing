@@ -1,9 +1,9 @@
-/*
-$white: #FFF;
 $red: #F00;
+
 body{
 
+  a.active{
+    background-color: $red;
+  }
 
-  background: $red;
-  p{color:$white;}
-}*/
+}
