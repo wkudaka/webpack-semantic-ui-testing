@@ -1,3 +1,13 @@
-// var $ = require('jquery');
+var React = require('react');
+var ReactDOM = require('react-dom');
 
-// $('body').css("background", "#F00")
+var App = require('./components/App');
+var routes = require('./config/routes');
+
+
+
+
+ReactDOM.render(
+  routes,
+  document.getElementById('app')
+);
