@@ -1,2 +1,3 @@
-var $ = require('jquery');
-require('./styles/main.scss');
+// var $ = require('jquery');
+
+// $('body').css("background", "#F00")
