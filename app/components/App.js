@@ -1,25 +1,113 @@
-var React = require('react');
-var ReactDOM = require('react-dom');
-var ReactRouter = require('react-router');
-var Link = ReactRouter.Link;
-var IndexLink = ReactRouter.IndexLink;
+import React from 'react';
+import ReactDOM from 'react-dom';
+import ReactRouter from 'react-router';
+import AptList from './AptList';
+import _ from 'lodash';
+import SearchAppointments from './SearchAppointments';
 
-var App = React.createClass({
-  render: function() {
-    return (
-      <div>
-        <h1>TEST</h1>
-        <ul className="header">
-          <li><IndexLink to="/" activeClassName="active">Home</IndexLink></li>
-          <li><Link to="/stuff" activeClassName="active">Stuff</Link></li>
-          <li><Link to="/contact" activeClassName="active">Contact</Link></li>
+import AddAppointment from './AddApointment'
+
+class MainInterface extends React.Component {
+
+  constructor(props){
+    super(props);
+
+    this.state = {
+      myAppointments: [],
+      aptBodyVisible: false,
+      orderDir: 'asc',
+      orderBy: 'perName'
+    };
+
+
+  }
+
+  componentDidMount() {
+    this.serverRequest = $.get('./data.json', (result) => {
+      var tempApts = result;
+
+      this.setState({
+        myAppointments : tempApts
+      });
+    });
+  }
+
+  componentWillUnMount(){
+    this.serverRequest.abort();
+  }
+
+  deleteMessage(item){
+
+    var allApts = this.state.myAppointments;
+    var newApts = _.without(allApts, item);
+    this.setState({
+      myAppointments: newApts
+    })
+  }
+  toggleAddDisplay(){
+    var tempVisibility = !this.state.aptBodyVisible;
+
+    this.setState({
+      aptBodyVisible: tempVisibility
+    })
+  }
+
+  addItem(tempItem){
+    var tempApts = this.state.myAppointments;
+    tempApts.push(tempItem);
+    this.setState({
+      myAppointments: tempApts
+    })
+  }
+
+  render() {
+    var filteredApts = this.state.myAppointments;
+    var orderBy = this.state.orderBy;
+    var orderDir = this.state.orderDir;
+
+    filteredApts = _.orderBy(filteredApts, (item) => {
+      console.log(item);
+      return item[orderBy].toLowerCase();
+    }, orderDir);
+
+    filteredApts = filteredApts.map((item, index) => {
+      return (
+        <AptList
+          key={index}
+          singleItem={item}
+          whichItem={item}
+          onDelete = {this.deleteMessage.bind(this)} />
+      )
+    });
+
+
+
+    return(
+      <div className="ui container">
+
+        <h1>
+         somethign :D
+        </h1>
+
+        <ul>
+          {filteredApts}
         </ul>
-        <div className="content">
-          {this.props.children}
-        </div>
+
+        <AddAppointment
+          bodyVisible={this.state.aptBodyVisible}
+          handleToggle = {this.toggleAddDisplay.bind(this)}
+          addApt = {this.addItem.bind(this)}
+          />
+
+        <SearchAppointments
+          orderBy={this.state.orderBy}
+          orderDir={this.state.orderDir}
+         />
       </div>
     )
   }
-});
+}
 
-module.exports = App;
+
+
+module.exports = MainInterface;

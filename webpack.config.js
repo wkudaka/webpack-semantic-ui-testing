@@ -2,6 +2,7 @@ var webpack = require('webpack');
 var path = require('path');
 var CommonsChunkPlugin = require('./node_modules/webpack/lib/optimize/CommonsChunkPlugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+var CopyWebpackPlugin = require('copy-webpack-plugin');
 
 var DIST_FOLDER_NAME = 'dist';
 
@@ -58,6 +59,9 @@ module.exports = {
       filename: 'index.html',
       template: './app/index.html',
       inject:false
-    })
+    }),
+    new CopyWebpackPlugin([
+      {from: 'app/data/data.json'}
+    ])
   ]
 };
