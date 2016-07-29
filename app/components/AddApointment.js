@@ -29,51 +29,55 @@ class AddAppointment extends React.Component {
     };
     return(
       <div>
-        <span onClick={this.toggleAptDisplay.bind(this)}>show</span>
-        <form className="ui form" style={displayAptBody} onSubmit={this.handleAdd.bind(this)}>
-          <h4 className="ui dividing header">Shipping Information</h4>
-          <div className="field">
-            <label>Pet Name</label>
-            <div className="field">
-              <input type="text" name="petname" ref="petname" placeholder="Pet name" />
-            </div>
-          </div>
+        <button className="ui primary button full-width text-align-left" onClick={this.toggleAptDisplay.bind(this)}>
+          <i className="plus icon"></i> Add Appointment
+        </button>
 
-          <div className="field">
-            <label>Pet owner</label>
+        <div className="ui container margin">
+          <form className="ui form" style={displayAptBody} onSubmit={this.handleAdd.bind(this)}>
+            <h4 className="ui dividing header">Shipping Information</h4>
             <div className="field">
-              <input type="text" name="petowner" ref="petowner" placeholder="Pet owner" />
+              <label>Pet Name</label>
+              <div className="field">
+                <input type="text" name="petname" ref="petname" placeholder="Pet name" />
+              </div>
             </div>
-          </div>
 
-          <div className="field">
-            <label>Date</label>
             <div className="field">
-              <input type="date" name="date" ref="date" placeholder="Date" />
+              <label>Pet owner</label>
+              <div className="field">
+                <input type="text" name="petowner" ref="petowner" placeholder="Pet owner" />
+              </div>
             </div>
-          </div>
 
-          <div className="field">
-            <label>Time</label>
             <div className="field">
-              <input type="time" name="time" ref="time" placeholder="Time" />
+              <label>Date</label>
+              <div className="field">
+                <input type="date" name="date" ref="date" placeholder="Date" />
+              </div>
             </div>
-          </div>
 
-          <div className="field">
-            <label>Appointment Notes</label>
             <div className="field">
-              <textarea placeholder="Appointment Notes" ref="aptnotes"></textarea>
+              <label>Time</label>
+              <div className="field">
+                <input type="time" name="time" ref="time" placeholder="Time" />
+              </div>
             </div>
-          </div>
 
-          <div className="field">
-            <label>Appointment Notes</label>
             <div className="field">
-              <button type="submit">Submit</button>
+              <label>Appointment Notes</label>
+              <div className="field">
+                <textarea placeholder="Appointment Notes" ref="aptnotes"></textarea>
+              </div>
             </div>
-          </div>
-        </form>
+
+            <div className="field">
+              <div className="field">
+                <button type="submit" className="ui primary button">Submit</button>
+              </div>
+            </div>
+          </form>
+        </div>
       </div>
     )
   }

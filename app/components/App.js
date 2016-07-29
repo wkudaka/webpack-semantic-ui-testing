@@ -5,6 +5,7 @@ import AptList from './AptList';
 import _ from 'lodash';
 import SearchAppointments from './SearchAppointments';
 
+
 import AddAppointment from './AddApointment'
 
 class MainInterface extends React.Component {
@@ -16,10 +17,23 @@ class MainInterface extends React.Component {
       myAppointments: [],
       aptBodyVisible: false,
       orderDir: 'asc',
-      orderBy: 'perName'
+      orderBy: 'perName',
+      queryText: ''
     };
 
 
+  }
+
+  orderList(name){
+    this.setState({
+      orderBy: name
+    })
+  }
+
+  orderDirection(name){
+    this.setState({
+      orderDir:name
+    })
   }
 
   componentDidMount() {
@@ -60,13 +74,32 @@ class MainInterface extends React.Component {
     })
   }
 
+  searchApts(q){
+    this.setState({
+      queryText:q
+    })
+  }
+
   render() {
-    var filteredApts = this.state.myAppointments;
+    var filteredApts = [];
     var orderBy = this.state.orderBy;
     var orderDir = this.state.orderDir;
+    var queryText = this.state.queryText;
+
+    var myAppointments = this.state.myAppointments;
+
+    myAppointments.forEach((item) =>{
+      if(
+        (item.perName.toLowerCase().indexOf(queryText) != -1)||
+        (item.ownerName.toLowerCase().indexOf(queryText) != -1)||
+        (item.appDate.toLowerCase().indexOf(queryText) != -1)||
+        (item.appNotes.toLowerCase().indexOf(queryText) != -1)
+      ){
+        filteredApts.push(item);
+      }
+    })
 
     filteredApts = _.orderBy(filteredApts, (item) => {
-      console.log(item);
       return item[orderBy].toLowerCase();
     }, orderDir);
 
@@ -78,7 +111,9 @@ class MainInterface extends React.Component {
           whichItem={item}
           onDelete = {this.deleteMessage.bind(this)} />
       )
-    });
+    })
+
+
 
 
 
@@ -86,12 +121,8 @@ class MainInterface extends React.Component {
       <div className="ui container">
 
         <h1>
-         somethign :D
+         Testing :D
         </h1>
-
-        <ul>
-          {filteredApts}
-        </ul>
 
         <AddAppointment
           bodyVisible={this.state.aptBodyVisible}
@@ -102,7 +133,25 @@ class MainInterface extends React.Component {
         <SearchAppointments
           orderBy={this.state.orderBy}
           orderDir={this.state.orderDir}
+          handleOrder={this.orderList.bind(this)}
+          handleDirection={this.orderDirection.bind(this)}
+          onSearch={this.searchApts.bind(this)}
          />
+
+         <table className="ui selectable celled table">
+           <thead>
+             <tr>
+               <th>Name</th>
+               <th>Owner Name</th>
+               <th>App Date</th>
+               <th>Notes</th>
+               <th></th>
+             </tr>
+           </thead>
+           <tbody>
+            {filteredApts}
+           </tbody>
+          </table>
       </div>
     )
   }

@@ -1,9 +1,30 @@
-$red: #F00;
 
-body{
 
-  a.active{
-    background-color: $red;
-  }
+.full-width{
+  width: 100%;
+}
 
+.text-align-left{
+  text-align: left !important;
+}
+
+.pull-left{
+  float: left;
+}
+
+/*clear fix*/
+.clearfix:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.margin{
+  margin-top:10px;
+  margin-bottom: 10px;
+}
+
+
+.search-container > div{
+  margin-right: 10px;
 }
